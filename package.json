@@ -1,0 +1,25 @@
+{
+  "name": "craft-skills",
+  "version": "1.0.0",
+  "description": "Claude Code skills — pm-craft (SDD PM workflow) + design-craft (HTML-native UI design)",
+  "bin": {
+    "craft-skills": "bin/install.js"
+  },
+  "files": [
+    "pm-craft",
+    "design-craft",
+    "bin"
+  ],
+  "keywords": [
+    "claude-code",
+    "claude-skill",
+    "pm",
+    "ui-design",
+    "prototyping",
+    "spec-driven-development"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=16"
+  }
+}
