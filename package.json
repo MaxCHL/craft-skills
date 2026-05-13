@@ -1,13 +1,14 @@
 {
   "name": "craft-skills",
   "version": "1.0.0",
-  "description": "Claude Code skills — pm-craft (SDD PM workflow) + design-craft (HTML-native UI design)",
+  "description": "Claude Code skills — pm-craft (SDD PM workflow) + design-craft (HTML-native UI design) + pptx-craft (style-driven PowerPoint)",
   "bin": {
     "craft-skills": "bin/install.js"
   },
   "files": [
     "pm-craft",
     "design-craft",
+    "pptx-craft",
     "bin"
   ],
   "keywords": [

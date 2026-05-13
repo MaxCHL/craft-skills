@@ -10,6 +10,7 @@ A collection of Claude Code skills for product and design workflows.
 |-------|---------|-----------------|
 | **pm-craft** | PM workflow — SDD-first, spec-before-code | 寫規格、寫 spec、寫需求、user story、handoff |
 | **design-craft** | HTML-native UI design — prototypes, slides, infographics | 做原型、做 mockup、幫我設計、做簡報 |
+| **pptx-craft** | Style-driven PowerPoint — 7 distinct presets, anti-AI checklist | distinctive deck, editorial slides, swiss-style, bento grid, don't make it look AI |
 
 ---
 
@@ -67,6 +68,40 @@ data infographics, and design critique — all in native HTML/CSS/JS.
 |-----|-------|-------|
 | Timeless | 11 | T1–T11 |
 | Trending | 9 | R1–R9 |
+
+---
+
+## pptx-craft
+
+A skill for **distinctive PowerPoint decks** that don't look AI-generated. Sits on top of the
+standard `pptx` skill (which handles file ops) and adds a style-driven design layer.
+
+**7 style presets**
+
+| Style | Register |
+|-------|----------|
+| Swiss / International | rigorous, systematic, neutral |
+| Editorial / Magazine | narrative, premium, long-form |
+| Bento Grid | modular, product-launch, dense-but-clean |
+| Brutalist | experimental, provocative, anti-corporate |
+| Big Type / Manifesto | keynote, single-idea-per-slide |
+| Data-dense / Analytical | Tufte-grade, numbers-heavy |
+| Monograph / White-paper | academic, document-as-deck |
+
+**Core principles**
+1. **Style first, layout second, content third** — pick the visual register before opening an editor
+2. **Rhythm beats symmetry** — never reuse the same layout primitive on adjacent slides
+3. **Anti-AI checklist is the acceptance gate** — 15 AI tells must be absent before a deck is "done"
+
+**Includes**: 4 executable `python-pptx` recipes (Swiss tech talk, Editorial pitch, Bento launch,
+Brutalist workshop), 16 layout primitives with helper functions, and a 15-point anti-AI QA checklist.
+
+```bash
+# Try a recipe locally
+cd ~/.claude/skills/pptx-craft
+uv venv && uv pip install python-pptx
+.venv/bin/python -m recipes.tech_talk_swiss
+```
 
 ---
 

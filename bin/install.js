@@ -18,6 +18,11 @@ const SKILLS = [
     copyFiles:   ["SKILL.md"],
     copyDirs:    ["references", "assets"],
   },
+  {
+    name:        "pptx-craft",
+    copyFiles:   ["SKILL.md", "grids.md", "primitives.md", "anti-ai.md"],
+    copyDirs:    ["styles", "lib", "recipes"],
+  },
 ];
 
 function copyDir(src, dest) {
