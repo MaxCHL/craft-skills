@@ -120,6 +120,29 @@ uv venv && uv pip install python-pptx
 
 ---
 
+## Brand Extension Pattern (pptx-craft)
+
+pptx-craft is brand-neutral but supports **brand color overlays** via a sibling-skill convention.
+Any installed Claude Code skill named `<brand>-pptx-craft` is auto-detected by pptx-craft's
+Step 0 and offered (default: No) as an optional color overlay.
+
+```
+~/.claude/skills/
+├── pptx-craft/             # base (this repo)
+├── acme-pptx-craft/        # any brand extension you build
+└── ...
+```
+
+Each extension provides only:
+- `references/brand-tokens.md` — hex / RGB / contrast / usage ratios
+- `references/style-overlays.md` — how the brand's colors map onto each of pptx-craft's 7 styles
+
+Layout, typography, primitives, grid, and the anti-AI checklist still come from pptx-craft.
+This keeps brand-specific colors out of the public repo while letting any team layer their CI
+on top of the same proven structure.
+
+---
+
 ## Skill integration
 
 pm-craft and design-craft are designed to work together:

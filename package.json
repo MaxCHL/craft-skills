@@ -1,7 +1,7 @@
 {
   "name": "craft-skills",
-  "version": "1.1.0",
-  "description": "Claude Code skills — pm-craft (SDD PM workflow + meeting minutes) + design-craft (HTML-native UI design) + pptx-craft (style-driven PowerPoint)",
+  "version": "1.2.0",
+  "description": "Claude Code skills — pm-craft (SDD PM workflow + meeting minutes) + design-craft (HTML-native UI design) + pptx-craft (style-driven PowerPoint, brand-extensible)",
   "bin": {
     "craft-skills": "bin/install.js"
   },

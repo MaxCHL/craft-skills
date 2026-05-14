@@ -35,6 +35,29 @@ Use the plain `pptx` skill instead when:
 
 ## Workflow
 
+### Step 0 — Brand extension detection (optional, run first)
+
+Before the interview, scan `~/.claude/skills/` for **brand extension skills** — any directory
+matching the pattern `*-pptx-craft` (other than `pptx-craft` itself). These are user-installed
+brand-color overlays that follow the same `references/brand-tokens.md` + `references/style-overlays.md`
+convention.
+
+```bash
+ls -d ~/.claude/skills/*-pptx-craft 2>/dev/null | grep -v '/pptx-craft$'
+```
+
+- **None found** → skip to Step 1, run the normal workflow.
+- **One or more found** → ask the user:
+  > 「偵測到 N 個 brand extension（例：`pf-pptx-craft`），要套用品牌色嗎？(y/N)」
+  - Default answer is **No** — assume neutral palette unless the user explicitly opts in.
+  - If user answers **Yes** → load that extension's `references/brand-tokens.md` and
+    `references/style-overlays.md`. Apply its color overrides whenever Steps 2-5 reference
+    color tokens. Typography / grid / anti-AI rules still come from this skill.
+- **Multiple found** → list them and let the user pick one (or none).
+
+Brand extensions are color-only overlays; they never replace the style preset itself.
+The user still picks a style in Step 2 — the extension just swaps which colors fill the slots.
+
 ### Step 1 — Interview (mandatory, 3 questions)
 
 Ask the user, then write the answers down explicitly before designing:
@@ -106,6 +129,22 @@ pptx-craft/
 ├── lib/helpers.py       ← reusable primitive functions
 └── recipes/             ← 4 complete executable examples
 ```
+
+## Brand Extension Pattern
+
+To add brand colors on top of pptx-craft without forking it, create a sibling skill named
+`<brand>-pptx-craft` (e.g., `acme-pptx-craft`) with this structure:
+
+```
+<brand>-pptx-craft/
+├── SKILL.md
+└── references/
+    ├── brand-tokens.md      ← hex / RGB / usage ratios / contrast warnings
+    └── style-overlays.md    ← per-style (swiss/editorial/.../monograph) PF token mapping
+```
+
+Step 0 of pptx-craft will auto-detect it and offer to apply it (default: No).
+Pure color overlay — typography, grid, primitives, anti-AI checklist still come from pptx-craft.
 
 ## Quick Decision Tree
 
