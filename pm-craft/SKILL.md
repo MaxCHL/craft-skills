@@ -1,24 +1,16 @@
 ---
 name: pm-craft
 description: >
-  PM workflow skill for spec-driven development (SDD). Covers the full product lifecycle
-  from opportunity discovery to engineering handoff, plus meeting minutes from raw transcripts.
-  Produces Markdown documents: Opportunity Brief, Epic, User Story, Product Spec (GWT),
-  Acceptance Checklist, Handoff Doc, Meeting Minutes (TL;DR / Executive Summary /
-  Detailed Notes / Decisions & Action Items).
-  Use when the user wants to write PM documents, define requirements, break down features,
-  prepare engineering handoffs, or turn meeting transcripts into professional minutes —
-  NOT for coding, UI design, or architecture review.
-  Trigger phrases (zh-TW): 寫規格、寫 spec、寫需求、寫 PRD、寫 story、拆 story、
-  驗收標準、AC、handoff、交付工程、機會探索、寫 Epic、產品文件、SDD、GWT、
-  幫我想清楚這個功能、這個功能怎麼定義、怎麼寫需求、
-  整理會議記錄、會議逐字稿整理、整理逐字稿、會議摘要、會議結論、
-  產出會議記錄、產出 meeting minutes、錄音轉會議記錄、把這段逐字稿整理成會議記錄、
-  會議筆記、會議紀要、抓 action items。
-  Trigger phrases (en): write spec, product spec, PRD, user story, acceptance criteria,
-  engineering handoff, opportunity brief, epic planning, feature requirements, SDD, GWT,
-  meeting minutes, meeting notes, format transcript, summarize meeting,
-  action items extraction, meeting recap, transcript cleanup, professional meeting notes.
+  PM workflow for spec-driven development (SDD) plus meeting minutes from raw transcripts.
+  Produces: Opportunity Brief, Epic, User Story, Product Spec (GWT), Acceptance Checklist,
+  Handoff Doc, Meeting Minutes (TL;DR / Exec Summary / Detailed Notes / Decisions & Actions).
+  Use for PM docs, requirements, story breakdown, engineering handoffs, or turning meeting
+  transcripts into professional minutes — NOT for coding, UI design, or architecture review.
+  Triggers (zh-TW): 寫規格、寫 spec、寫 PRD、寫 story、拆 story、驗收標準、AC、handoff、
+  交付工程、機會探索、寫 Epic、SDD、GWT、整理會議記錄、逐字稿、會議摘要、meeting minutes、
+  錄音轉文字、抓 action items。
+  Triggers (en): write spec, product spec, PRD, user story, acceptance criteria, handoff,
+  opportunity brief, epic, SDD, GWT, meeting minutes, transcript cleanup, action items.
 ---
 
 # pm-craft
