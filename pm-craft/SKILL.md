@@ -2,15 +2,23 @@
 name: pm-craft
 description: >
   PM workflow skill for spec-driven development (SDD). Covers the full product lifecycle
-  from opportunity discovery to engineering handoff. Produces Markdown documents:
-  Opportunity Brief, Epic, User Story, Product Spec (GWT), Acceptance Checklist, Handoff Doc.
+  from opportunity discovery to engineering handoff, plus meeting minutes from raw transcripts.
+  Produces Markdown documents: Opportunity Brief, Epic, User Story, Product Spec (GWT),
+  Acceptance Checklist, Handoff Doc, Meeting Minutes (TL;DR / Executive Summary /
+  Detailed Notes / Decisions & Action Items).
   Use when the user wants to write PM documents, define requirements, break down features,
-  or prepare engineering handoffs — NOT for coding, UI design, or architecture review.
+  prepare engineering handoffs, or turn meeting transcripts into professional minutes —
+  NOT for coding, UI design, or architecture review.
   Trigger phrases (zh-TW): 寫規格、寫 spec、寫需求、寫 PRD、寫 story、拆 story、
   驗收標準、AC、handoff、交付工程、機會探索、寫 Epic、產品文件、SDD、GWT、
-  幫我想清楚這個功能、這個功能怎麼定義、怎麼寫需求。
+  幫我想清楚這個功能、這個功能怎麼定義、怎麼寫需求、
+  整理會議記錄、會議逐字稿整理、整理逐字稿、會議摘要、會議結論、
+  產出會議記錄、產出 meeting minutes、錄音轉會議記錄、把這段逐字稿整理成會議記錄、
+  會議筆記、會議紀要、抓 action items。
   Trigger phrases (en): write spec, product spec, PRD, user story, acceptance criteria,
-  engineering handoff, opportunity brief, epic planning, feature requirements, SDD, GWT.
+  engineering handoff, opportunity brief, epic planning, feature requirements, SDD, GWT,
+  meeting minutes, meeting notes, format transcript, summarize meeting,
+  action items extraction, meeting recap, transcript cleanup, professional meeting notes.
 ---
 
 # pm-craft
@@ -60,6 +68,7 @@ Only reach here after input type is confirmed.
 | 寫規格 | spec、規格、PRD、product spec、需求文件、SDD、怎麼寫需求 | `references/product-spec.md` |
 | 驗收標準 | AC、驗收、acceptance criteria、DoD、完成定義、怎麼驗 | `references/acceptance-checklist.md` |
 | 工程交付 | handoff、交付、給工程師、設計交付、開發前、ready for dev | `references/handoff.md` |
+| 會議記錄 | 整理會議記錄、逐字稿、會議摘要、meeting minutes、action items、transcript cleanup、錄音轉文字 | `references/meeting-minutes.md` |
 | 反模式 / 風險 | 反模式、anti-pattern、常見錯誤、不要做、風險、踩坑 | `references/anti-patterns.md` |
 | 引導 / 不確定 | *(fallback — if no match above)* | `references/intake-advisor.md` |
 
@@ -147,6 +156,7 @@ Each document has its own status lifecycle. These are intentionally different �
 | Product Spec | `Draft` → `Review` → `Approved` → `Shipped` |
 | User Story | `Backlog` → `Ready` → `In Progress` → `In Review` → `PM Approved` → `Done` |
 | Handoff | No status field — use the linked Product Spec's status as proxy |
+| Meeting Minutes | `Draft` (auto-generated) → `Confirmed` (after [需確認] items resolved) → `Archived` |
 
 **Gate dependencies:** Spec must be `Approved` before stories enter `In Progress`. Story must reach `PM Approved` + Engineering DoD before moving to `Done`.
 
@@ -174,6 +184,17 @@ pm-craft  ───────────────────────�
 ```
 
 Trigger design-craft at the **Product Spec stage** (not only at Handoff), whenever UI behavior needs to be validated before writing GWT scenarios.
+
+**Meeting Minutes feeds upstream into PM docs:**
+
+```
+Meeting Transcripts  ──→  Meeting Minutes  ──→  PM Docs (downstream)
+ (raw STT input)         (Decisions / Insights)   ├── Customer interviews  → Opportunity Brief
+                                                  ├── Product decisions    → Epic / Product Spec
+                                                  └── Technical decisions  → Spec § Non-Goals / Constraints (+ ADR draft)
+```
+
+When a meeting yields decisions or insights that should become a formal PM document, route to the matching reference after the minutes are saved.
 
 Match depth to team size and ambiguity:
 

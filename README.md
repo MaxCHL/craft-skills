@@ -8,7 +8,7 @@ A collection of Claude Code skills for product and design workflows.
 
 | Skill | Purpose | Trigger examples |
 |-------|---------|-----------------|
-| **pm-craft** | PM workflow — SDD-first, spec-before-code | 寫規格、寫 spec、寫需求、user story、handoff |
+| **pm-craft** | PM workflow — SDD-first, spec-before-code, plus meeting minutes from raw transcripts | 寫規格、寫 spec、寫需求、user story、handoff、整理會議記錄、meeting minutes |
 | **design-craft** | HTML-native UI design — prototypes, slides, infographics | 做原型、做 mockup、幫我設計、做簡報 |
 | **pptx-craft** | Style-driven PowerPoint — 7 distinct presets, anti-AI checklist | distinctive deck, editorial slides, swiss-style, bento grid, don't make it look AI |
 
@@ -38,12 +38,27 @@ A skill for the full PM document lifecycle, built on Spec-Driven Development (SD
 | User Story | Story breakdown, sprint-level tasks |
 | Acceptance Checklist | PM AC + Engineering DoD |
 | Handoff Doc | Design → Engineering handoff |
+| Meeting Minutes | Turn raw meeting transcripts (STT output) into multi-dimensional minutes: TL;DR, Executive Summary, Detailed Notes, Decisions & Action Items |
+
+**Meeting Minutes** — four built-in templates with routing keywords:
+
+| Template | Use for |
+|----------|---------|
+| `template-product.md` | Product / business decision meetings (roadmap, OKR, pricing) |
+| `template-one-on-one.md` | 1-on-1s and manager check-ins (privacy-aware) |
+| `template-customer-interview.md` | User research and customer interviews (JTBD framework) |
+| `template-technical.md` | Architecture / technical decision meetings (ADR-style) |
+
+Includes a 3-layer annotation system for STT corrections (`[需確認]` / `[推測:X]` / `[unclear]`),
+a 6-phase workflow (Intake → Preprocess → Segment → Extract → Assemble → Verify & Save),
+and saves output to `./meeting-notes/YYYY-MM-DD-{slug}.md` by default.
 
 **Core principles**
 1. Spec before code — no implementation discussion until spec is agreed
 2. GWT as the contract — Given/When/Then bridges PM, Design, and Engineering
 3. Ambiguity is a blocker — surface open questions before writing specs
 4. Non-Goals are first-class — what you won't do is as important as what you will
+5. Meeting minutes are evidence — preserve dissent, mark uncertainty, never invent metadata
 
 ---
 
