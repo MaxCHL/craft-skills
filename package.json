@@ -1,0 +1,31 @@
+{
+  "name": "craft-skills",
+  "version": "1.3.2",
+  "description": "Claude Code skills — pm-craft (SDD PM workflow + meeting minutes) + design-craft (HTML-native UI design) + pptx-craft (style-driven PowerPoint, brand-extensible)",
+  "bin": {
+    "craft-skills": "installer/install.js"
+  },
+  "files": [
+    "pm-craft",
+    "design-craft",
+    "pptx-craft",
+    "installer",
+    ".claude-plugin"
+  ],
+  "keywords": [
+    "claude-code",
+    "claude-skill",
+    "pm",
+    "ui-design",
+    "prototyping",
+    "spec-driven-development",
+    "meeting-minutes",
+    "transcript",
+    "pptx",
+    "powerpoint"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=16"
+  }
+}

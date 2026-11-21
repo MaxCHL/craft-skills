@@ -1,0 +1,11 @@
+{
+  "name": "craft-skills",
+  "version": "1.3.2",
+  "description": "Skills for product and design workflows: pm-craft (SDD PM workflow + meeting minutes), design-craft (HTML-native UI design), pptx-craft (style-driven PowerPoint)",
+  "author": { "name": "MaxCHL", "url": "https://github.com/MaxCHL" },
+  "homepage": "https://github.com/MaxCHL/craft-skills",
+  "repository": "https://github.com/MaxCHL/craft-skills",
+  "license": "MIT",
+  "keywords": ["pm", "ui-design", "prototyping", "spec-driven-development", "meeting-minutes", "pptx"],
+  "skills": ["./pm-craft", "./design-craft", "./pptx-craft"]
+}

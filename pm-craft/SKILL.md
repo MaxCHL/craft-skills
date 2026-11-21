@@ -1,0 +1,204 @@
+---
+name: pm-craft
+description: >
+  Produces PM documents for spec-driven development (SDD), and turns raw transcripts into
+  meeting minutes. Covers Opportunity Brief, Epic, User Story, Product Spec (GWT), Acceptance
+  Checklist, Handoff Doc, and Meeting Minutes (TL;DR / Exec Summary / Detailed Notes /
+  Decisions & Actions). Use when the user wants requirements explored, written, broken down,
+  or handed off to engineering (規格、PRD、story、驗收標準、handoff、機會探索), or a meeting
+  transcript turned into minutes and action items (會議記錄、逐字稿、錄音轉文字) — NOT for
+  coding, UI design, or architecture review.
+---
+
+# pm-craft
+
+A Claude Code skill for PM workflow — lightweight, SDD-first, spec-before-code.
+
+---
+
+## Step 0 — Input Detection
+
+What the user gave you decides where to start:
+
+```
+What did the user provide?
+│
+├── Image / screenshot
+│     └── → intake-advisor.md § Visual Input
+│
+├── Attached file (PDF / PPTX / DOCX / TXT / MD)
+│     └── → intake-advisor.md § Document Input
+│
+├── Vague / open-ended natural language
+│     (no clear document type, exploring, asking "what should I do")
+│     └── → intake-advisor.md § Open-Ended Input
+│
+└── Clear request with recognizable intent
+      └── → Routing Table (Step 1)
+```
+
+Start at intake-advisor when the request names no deliverable, or mixes the problem and a proposed solution without separating them (e.g. 「有個想法…」「幫我看看這個」). A request that names a deliverable goes to the Routing Table even when it is phrased as a question (「我想寫一份 X 的 PRD」).
+
+---
+
+## Step 1 — Routing Table
+
+| Intent | Trigger signals | Load reference |
+|--------|----------------|---------------|
+| 機會探索 | 機會、問題、insight、市場、為什麼做、用戶痛點、值不值得做 | `references/opportunity-brief.md` |
+| Epic 規劃 | epic、功能群組、feature set、大功能、一整個季度、roadmap | `references/epic.md` |
+| 拆解故事 | story、使用者故事、user story、task、拆解、怎麼切、怎麼分 | `references/user-story.md` |
+| 寫規格 | spec、規格、PRD、product spec、需求文件、SDD、怎麼寫需求 | `references/product-spec.md` |
+| 驗收標準 | AC、驗收、acceptance criteria、DoD、完成定義、怎麼驗 | `references/acceptance-checklist.md` |
+| 工程交付 | handoff、交付、給工程師、設計交付、開發前、ready for dev | `references/handoff.md` |
+| 會議記錄 | 整理會議記錄、逐字稿、會議摘要、meeting minutes、action items、transcript cleanup、錄音轉文字 | `references/meeting-minutes.md` |
+| 反模式 / 風險 | 反模式、anti-pattern、常見錯誤、不要做、風險、踩坑 | `references/anti-patterns.md` |
+| 引導 / 不確定 | *(fallback — if no match above)* | `references/intake-advisor.md` |
+
+---
+
+## Step 2 — Inter-Skill Integration
+
+pm-craft does not work alone. Know when to pull in other skills and in which direction.
+
+### Outbound — pm-craft triggers other skills
+
+| Condition in pm-craft workflow | Trigger skill | Hand-over content |
+|-------------------------------|--------------|------------------|
+| Spec needs a UI prototype or mockup (no Figma yet) | **design-craft** | Feature description + personas + key screens list |
+| Product Spec references existing Figma but GWT coverage is incomplete | **design-craft** | Figma link + list of scenarios not yet covered by design |
+| Product Spec has complex technical architecture | **arch-review** *(if available)* | Non-Goals, constraints, GWT edge cases |
+| Handoff doc references a design not yet created | **design-craft** | Screen list from spec + device target |
+
+**When arch-review is not available:** flag the technical complexity explicitly in the spec as a Risk / Rabbit Hole, and add an Open Question for the engineering lead to address during sprint planning. Do not skip the flag — surface it, even if there is no dedicated review process.
+
+**How to trigger design-craft from pm-craft:**
+
+When writing a Product Spec and the feature needs visual design, emit this bridge prompt inline:
+
+```
+> 🎨 design-craft handoff: [Feature name]
+> Problem: [one sentence — copied from Product Spec § Problem Statement]
+> Success metric: [key metric — copied from Product Spec § Success Metrics]
+> Non-Goals: [relevant constraints that affect design scope]
+> Target: [web / iOS / Android / macOS]
+> Screens needed: [list]
+> Key states: [empty / loading / error / success]
+> Open Questions: [any unresolved questions that affect design decisions]
+> Style direction: [T-code or description, optional]
+> Spec reference: [section name in this doc]
+```
+
+### Inbound — other skills hand off to pm-craft
+
+| Upstream skill | When it calls pm-craft | What it provides |
+|---------------|----------------------|-----------------|
+| **design-craft** | Prototype is ready, needs spec to formalize behavior | Figma/HTML prototype link + screen descriptions |
+| **arch-review** | Architecture review surfaces product-level decisions | Constraints, rejected approaches, performance limits |
+
+**How to receive from design-craft:**
+
+When given a prototype or design file:
+1. Run intake-advisor.md § Document / Visual Input
+2. Extract: screens, states, user flows, copy
+3. Map each screen to a GWT scenario in the Product Spec
+4. Flag gaps (states in spec with no design, designs with no spec coverage)
+
+---
+
+## Core Principles
+
+1. **Spec before code** — no implementation discussion until the spec is written and agreed
+2. **Lightweight by default** — only produce the document the team actually needs; no forced ceremony
+3. **GWT as the contract** — Given/When/Then is the language between PM, Design, and Engineering
+4. **Ambiguity is a blocker** — surface unclear requirements as explicit open questions before writing specs
+5. **Non-Goals are first-class** — what you won't do is as important as what you will
+
+---
+
+## Output Format Rules
+
+- All documents are Markdown
+- Use `[ ]` checkboxes for actionable items (AC, DoD, handoff checklists)
+- Use `> ⚠️ **Open Question:**` callout for unresolved ambiguities
+- Use `> 🚫 **Out of Scope:**` callout for explicit Non-Goals
+- Use `> 🐇 **Rabbit Hole:**` callout for identified risks / complexity traps
+- Tables for structured data (personas, metrics, error states)
+- Keep each document under one printed page unless content demands more
+
+---
+
+## Status Vocabulary (Per Document Type)
+
+Each document has its own status lifecycle. These are intentionally different — each reflects the document's stage, not a unified pipeline.
+
+| Document | Status values |
+|----------|-------------|
+| Opportunity Brief | `Exploring` → `Validating` → `Approved` → `Parked` |
+| Epic | `Backlog` → `In Planning` → `In Progress` → `Done` / `Parked` |
+| Product Spec | `Draft` → `Review` → `Approved` → `Shipped` |
+| User Story | `Backlog` → `Ready` → `In Progress` → `In Review` → `PM Approved` → `Done` |
+| Handoff | No status field — use the linked Product Spec's status as proxy |
+| Meeting Minutes | `Draft` (auto-generated) → `Confirmed` (after [需確認] items resolved) → `Archived` |
+
+**Gate dependencies:** Spec must be `Approved` before stories enter `In Progress`. Story must reach `PM Approved` + Engineering DoD before moving to `Done`.
+
+---
+
+## Document Hierarchy
+
+```
+Opportunity Brief  →  Epic  →  Product Spec
+                                    ↓
+                              User Stories  (broken down from spec, refined in sprint planning)
+                                    ↓
+                            Acceptance Checklist
+                                    ↓
+                                Handoff Doc
+```
+
+**design-craft integration is bidirectional — not a downstream step:**
+
+```
+pm-craft  ──────────────────────────→  design-craft
+ (Product Spec with UI needs)           (prototype / mockup)
+          ←──────────────────────────
+           (prototype → feeds back into GWT coverage)
+```
+
+Trigger design-craft at the **Product Spec stage** (not only at Handoff), whenever UI behavior needs to be validated before writing GWT scenarios.
+
+**Meeting Minutes feeds upstream into PM docs:**
+
+```
+Meeting Transcripts  ──→  Meeting Minutes  ──→  PM Docs (downstream)
+ (raw STT input)         (Decisions / Insights)   ├── Customer interviews  → Opportunity Brief
+                                                  ├── Product decisions    → Epic / Product Spec
+                                                  └── Technical decisions  → Spec § Non-Goals / Constraints (+ ADR draft)
+```
+
+When a meeting yields decisions or insights that should become a formal PM document, route to the matching reference after the minutes are saved.
+
+Match depth to team size and ambiguity:
+
+| Team / Ambiguity | Start at |
+|-----------------|---------|
+| Solo / low ambiguity | Product Spec |
+| Small team | Epic → Product Spec |
+| Multi-team / high ambiguity | Opportunity Brief → Epic → Product Spec |
+
+---
+
+## Quick Reference: SDD Gate Checklist
+
+Before calling a spec "done":
+
+- [ ] Problem statement is written from the user's perspective (not the solution)
+- [ ] Success Metrics defined and measurable
+- [ ] At least one Non-Goal explicitly stated
+- [ ] Every major feature has GWT acceptance criteria
+- [ ] Ambiguities surfaced as Open Questions (with owners and due dates)
+- [ ] Rabbit Holes / Risks identified
+- [ ] Edge cases and error states covered in GWT
+- [ ] Handoff doc links to Figma/prototype, spec, and open questions
+- [ ] design-craft handoff emitted (if UI screens are needed)

@@ -1,0 +1,12 @@
+{
+  "name": "craft-skills",
+  "description": "Claude Code skills for product and design workflows",
+  "owner": { "name": "MaxCHL", "url": "https://github.com/MaxCHL" },
+  "plugins": [
+    {
+      "name": "craft-skills",
+      "source": "./",
+      "description": "pm-craft, design-craft and pptx-craft skills"
+    }
+  ]
+}

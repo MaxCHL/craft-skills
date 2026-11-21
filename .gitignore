@@ -1,0 +1,11 @@
+node_modules/
+.DS_Store
+*.log
+.codex
+
+# pptx-craft build artifacts
+.venv/
+__pycache__/
+*.pyc
+*.pptx
+*.pdf
